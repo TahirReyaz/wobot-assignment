@@ -1,50 +1,56 @@
-# React + TypeScript + Vite
+# Camera Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a Camera Management System designed to manage and monitor cameras, including features like location-based filtering, status management, and UI enhancements for better UX.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 1. **Location and Status Filters**
+   - **Location Filter:** A dropdown to filter cameras by location. It is dynamically populated based on the list of cameras available.
+   - **Status Filter:** A dropdown to filter cameras by their status, with the options `Active` and `Inactive`.
 
-## Expanding the ESLint configuration
+### 2. **Camera Health Display**
+   - **Health Rings:** Each camera's health is represented using a ring that visually indicates the health of the device and cloud, ranging from `A` (green) to `F` (red). The circle fills based on the health grade and changes color accordingly.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 3. **Pagination**
+   - The table displaying the camera data supports pagination with:
+     - A dropdown for selecting the number of items per page (`2`, `5`, `10`, `20`, `50`).
+     - Page navigation buttons (`<<`, `<`, `>`, `>>`) to move between pages, allowing users to easily navigate through large datasets.
 
-- Configure the top-level `parserOptions` property like this:
+### 4. **Select and Delete Functionality**
+   - **Checkbox Selection:** Each row in the camera table has a checkbox for selecting individual items. Additionally, there's a "Select All" checkbox in the header.
+   - **Delete Button:** A delete button is provided to remove selected rows from the table. This button is designed with better UI/UX, featuring a red background and a trash icon to indicate the delete action.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### 5. **Responsive and Accessible UI**
+   - The UI is designed with responsive elements to ensure that it works well on various screen sizes.
+   - The delete button is enhanced with hover and focus effects to ensure good user experience and accessibility.
+
+## Installation
+
+To get started with the project, follow these steps:
+
+### Prerequisites
+- Ensure you have `Node.js` and `npm` installed on your machine.
+  
+### Step 1: Clone the repository
+
+```bash
+git clone https://github.com/your-username/camera-management-system.git
+cd camera-management-system
+```
+### Step 2: Install dependencies
+```bash
+Copy code
+npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+### Step 3: Start the development server
+```bash
+Copy code
+npm start
 ```
+
+## Usage
+Filter Cameras by Location and Status: Use the dropdown filters to view cameras based on location or status. The camera list will be dynamically updated based on your selection.
+View Camera Health: Each camera entry displays its health, represented by a ring that fills and changes color depending on the health grade.
+Paginate through Cameras: Use the pagination controls to navigate between pages of camera data.
+Select and Delete Cameras: Check individual rows or use the "Select All" checkbox to select multiple cameras. Then, click the delete button to remove the selected cameras from the table.
