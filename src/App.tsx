@@ -1,5 +1,3 @@
-import React from "react";
-
 import WobotLogo from "./assets/WobotLogo.png";
 
 import CameraTable from "./components/CameraTable";

@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Health as HealthType, HealthValue } from "../../types/Camera";
 import { healthGrades } from "../../utils/constants";
 import { CloudIcon, ServerIcon } from "lucide-react";

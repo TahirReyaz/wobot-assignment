@@ -1,4 +1,3 @@
-import React from "react";
 import { CircleAlertIcon } from "lucide-react";
 
 interface Props {
