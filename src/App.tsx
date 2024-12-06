@@ -7,7 +7,7 @@ import CameraTable from "./components/CameraTable";
 function App() {
   return (
     <main className="p-4">
-      <div className="flex justify-end">
+      <div className="flex justify-center">
         <img src={WobotLogo}></img>
       </div>
       <CameraTable />

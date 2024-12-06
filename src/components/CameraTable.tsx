@@ -1,11 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  BanIcon,
-  CheckCircle2Icon,
-  CheckCircleIcon,
-  TrashIcon,
-} from "lucide-react";
+import { BanIcon, CheckCircleIcon, TrashIcon } from "lucide-react";
 
 import { fetchCameras, updateCameraStatus } from "../api/camera";
 import { Camera } from "../types/Camera";
@@ -14,13 +9,19 @@ import Filter from "./Filter";
 import { statusOptions } from "../utils/constants";
 import Health from "./Health";
 import Name from "./Name";
+import SearchFilter from "./SearchFilter";
 
 const CameraTable: React.FC = () => {
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [filters, setFilters] = useState({ location: "", status: "" });
+  const [filters, setFilters] = useState({
+    location: "",
+    status: "",
+    search: "",
+  });
   const [selectedCameras, setSelectedCameras] = useState<number[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const { data: cameras = [], isLoading } = useQuery<Camera[]>({
     queryKey: ["cameras"],
@@ -68,6 +69,12 @@ const CameraTable: React.FC = () => {
     );
   };
 
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
+    setCurrentPage(1);
+    setFilters((prev) => ({ ...prev, search: term }));
+  };
+
   const filteredCameras = useMemo(() => {
     return cameras.filter((camera) => {
       const matchesLocation = filters.location
@@ -76,8 +83,11 @@ const CameraTable: React.FC = () => {
       const matchesStatus = filters.status
         ? camera.status === filters.status
         : true;
+      const matchesSearch = filters.search
+        ? camera.name.toLowerCase().includes(searchTerm.toLowerCase())
+        : true;
 
-      return matchesLocation && matchesStatus;
+      return matchesLocation && matchesStatus && matchesSearch;
     });
   }, [cameras, filters]);
 
@@ -97,8 +107,13 @@ const CameraTable: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-normal mb">Cameras</h1>
-      <h3 className="text-gray-600 mb-4">Manage your cameras here</h3>
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-normal mb">Cameras</h1>
+          <h3 className="text-gray-600 mb-4">Manage your cameras here</h3>
+        </div>
+        <SearchFilter searchTerm={searchTerm} onSearch={handleSearch} />
+      </div>
       <div className="flex justify-between my-4">
         <div className="flex">
           <Filter

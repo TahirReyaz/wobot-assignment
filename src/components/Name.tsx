@@ -1,5 +1,5 @@
 import React from "react";
-import { BatteryWarningIcon } from "lucide-react";
+import { CircleAlertIcon } from "lucide-react";
 
 interface Props {
   name: string;
@@ -21,7 +21,7 @@ const Name = ({ name, hasWarning, createdBy, isResponding }: Props) => {
           <span>{name}</span>
           {hasWarning && (
             <span>
-              <BatteryWarningIcon className="text-orange-400" />
+              <CircleAlertIcon className="text-orange-400" />
             </span>
           )}
         </div>

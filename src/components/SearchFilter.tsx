@@ -1,3 +1,4 @@
+import { SearchIcon } from "lucide-react";
 import React from "react";
 
 interface SearchFilterProps {
@@ -10,14 +11,15 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
   onSearch,
 }) => {
   return (
-    <div className="mb-4">
+    <div className="mb-4 flex items-center rounded text-gray-600 bg-gray-100 pe-4">
       <input
         type="text"
-        className="border px-4 py-2 rounded w-full"
-        placeholder="Search cameras..."
+        className="ps-4 py-2 text-gray-600 bg-gray-100"
+        placeholder="search"
         value={searchTerm}
         onChange={(e) => onSearch(e.target.value)}
       />
+      <SearchIcon size={16} />
     </div>
   );
 };
