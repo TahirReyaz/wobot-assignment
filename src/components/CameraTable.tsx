@@ -92,7 +92,7 @@ const CameraTable: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-semibold mb">Cameras</h1>
+      <h1 className="text-2xl font-normal mb">Cameras</h1>
       <h3 className="text-gray-600 mb-4">Manage your cameras here</h3>
       <Filter
         {...{
