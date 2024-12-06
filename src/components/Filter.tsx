@@ -10,7 +10,7 @@ interface Props {
 const Filter = ({ type, options, value, handleFilterChange }: Props) => {
   return (
     <select
-      className="border p-2"
+      className="border border-gray-300 rounded p-2 bg-white ms-4"
       value={value}
       onChange={(e) => handleFilterChange(type, e.target.value)}
     >

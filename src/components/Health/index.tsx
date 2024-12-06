@@ -2,6 +2,7 @@ import React from "react";
 
 import { Health as HealthType, HealthValue } from "../../types/Camera";
 import { healthGrades } from "../../utils/constants";
+import { CloudIcon, ServerIcon } from "lucide-react";
 
 const Health = ({ cloud, device }: HealthType) => {
   const getHealthStyle = (grade: keyof typeof healthGrades) => {
@@ -11,22 +12,22 @@ const Health = ({ cloud, device }: HealthType) => {
 
   const renderHealthRing = (health: HealthValue, label: string) => {
     const { color, value } = getHealthStyle(health);
-    const radius = 12; // Radius of the circle
-    const stroke = 2; // Stroke width
+    const radius = 18; // Radius of the circle
+    const stroke = 3; // Stroke width
     const circumference = 2 * Math.PI * radius;
     const progress = (value / 100) * circumference; // Calculate the stroke offset
 
     return (
-      <div className="flex items-center">
+      <div className="relative">
         <svg
-          className="w-20 h-20 transform -rotate-90"
-          viewBox="0 0 80 80"
+          className="w-8 h-8 transform -rotate-90"
+          viewBox="0 0 40 40"
           xmlns="http://www.w3.org/2000/svg"
         >
           {/* Background Circle */}
           <circle
-            cx="40"
-            cy="40"
+            cx="20"
+            cy="20"
             r={radius}
             stroke="lightgray"
             strokeWidth={stroke}
@@ -34,8 +35,8 @@ const Health = ({ cloud, device }: HealthType) => {
           />
           {/* Progress Circle */}
           <circle
-            cx="40"
-            cy="40"
+            cx="20"
+            cy="20"
             r={radius}
             stroke={color}
             strokeWidth={stroke}
@@ -46,17 +47,23 @@ const Health = ({ cloud, device }: HealthType) => {
           />
         </svg>
         {/* Health Percentage */}
-        <span className="absolute text-lg font-bold -mt-16">{health}</span>
+        <span className="absolute text-sm left-3 bottom-2">{health}</span>
       </div>
     );
   };
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center justify-around">
       {/* Cloud Health */}
-      {cloud && renderHealthRing(cloud, "Cloud")}
+      <div className="flex items-center">
+        <CloudIcon className="text-md me-1 text-gray-400" />
+        {cloud && renderHealthRing(cloud, "Cloud")}
+      </div>
       {/* Device Health */}
-      {device && renderHealthRing(device, "Device")}
+      <div className="flex items-center">
+        <ServerIcon className="text-md me-1 text-gray-400" />
+        {device && renderHealthRing(device, "Device")}
+      </div>
     </div>
   );
 };

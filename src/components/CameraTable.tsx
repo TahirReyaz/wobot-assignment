@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { BanIcon, CheckCircle2Icon, CheckCircleIcon } from "lucide-react";
 
 import { fetchCameras, updateCameraStatus } from "../api/camera";
 import { Camera } from "../types/Camera";
@@ -85,8 +86,8 @@ const CameraTable: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Cameras</h1>
-      <h3>Manage your cameras here</h3>
+      <h1 className="text-2xl font-semibold mb">Cameras</h1>
+      <h3 className="text-gray-600 mb-4">Manage your cameras here</h3>
       <Filter
         {...{
           type: "location",
@@ -115,61 +116,65 @@ const CameraTable: React.FC = () => {
         Delete Selected
       </button>
 
-      <table className="table-auto w-full border-collapse border border-gray-200">
+      <table className="table-auto w-full text-gray-600">
         <thead>
-          <tr>
-            <th className="border border-gray-300 px-4 py-2">
+          <tr className="text-left">
+            <th className="px-4 py-2">
               <input
                 type="checkbox"
                 checked={selectedCameras.length === paginatedCameras.length}
                 onChange={toggleSelectAll}
               />
             </th>
-            <th className="border border-gray-300 px-4 py-2">Name</th>
-            <th className="border border-gray-300 px-4 py-2">Health</th>
-            <th className="border border-gray-300 px-4 py-2">Location</th>
-            <th className="border border-gray-300 px-4 py-2">Recorder</th>
-            <th className="border border-gray-300 px-4 py-2">Tasks</th>
-            <th className="border border-gray-300 px-4 py-2">Status</th>
-            <th className="border border-gray-300 px-4 py-2">Actions</th>
+            <th className="px-4 py-2 font-normal">NAME</th>
+            <th className="px-4 py-2 font-normal">HEALTH</th>
+            <th className="px-4 py-2 font-normal">LOCATION</th>
+            <th className="px-4 py-2 font-normal">RECORDER</th>
+            <th className="px-4 py-2 font-normal">TASKS</th>
+            <th className="px-4 py-2 font-normal">STATUS</th>
+            <th className="px-4 py-2 font-normal">ACTIONS</th>
           </tr>
         </thead>
         <tbody>
           {paginatedCameras.map((camera) => (
             <tr key={camera.id}>
-              <td className="border border-gray-300 px-4 py-2">
+              <td className="px-4 py-2">
                 <input
                   type="checkbox"
                   checked={selectedCameras.includes(camera.id)}
                   onChange={() => toggleSelection(camera.id)}
                 />
               </td>
-              <td className="border border-gray-300 px-4 py-2">
-                {camera.name}
-              </td>
-              <td className="border border-gray-300 px-4 py-2">
+              <td className="px-4 py-2">{camera.name}</td>
+              <td className="px-4 py-2">
                 <Health {...{ ...camera.health }} />
               </td>
-              <td className="border border-gray-300 px-4 py-2">
-                {camera.location}
-              </td>
-              <td className="border border-gray-300 px-4 py-2">
-                {camera.recorder}
-              </td>
-              <td className="border border-gray-300 px-4 py-2">
-                {camera.tasks}
-              </td>
-              <td className="border border-gray-300 px-4 py-2">
-                {camera.status}
-              </td>
-              <td className="border border-gray-300 px-4 py-2">
-                <button
-                  className="px-2 py-1 bg-blue-500 text-white rounded"
-                  onClick={() => handleStatusToggle(camera.id, camera.status)}
-                  disabled={updateStatusMutation.isPending}
+              <td className="px-4 py-2">{camera.location}</td>
+              <td className="px-4 py-2">{camera.recorder}</td>
+              <td className="px-4 py-2">{camera.tasks}</td>
+              <td className="px-4 py-2">
+                <span
+                  className={`p-2 ${
+                    camera.status === "Active"
+                      ? "bg-green-300/30 text-green-600"
+                      : "bg-gray-200/40 text-gray-600"
+                  } rounded text-sm`}
                 >
-                  Toggle Status
-                </button>
+                  {camera.status}
+                </span>
+              </td>
+              <td className="px-4 py-2">
+                {camera.status !== "Active" ? (
+                  <CheckCircleIcon
+                    className="cursor-pointer"
+                    onClick={() => handleStatusToggle(camera.id, camera.status)}
+                  />
+                ) : (
+                  <BanIcon
+                    className="cursor-pointer"
+                    onClick={() => handleStatusToggle(camera.id, camera.status)}
+                  />
+                )}
               </td>
             </tr>
           ))}
