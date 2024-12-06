@@ -23,7 +23,11 @@ const CameraTable: React.FC = () => {
   const [selectedCameras, setSelectedCameras] = useState<number[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { data: cameras = [], isLoading } = useQuery<Camera[]>({
+  const {
+    data: cameras = [],
+    isLoading,
+    isError,
+  } = useQuery<Camera[]>({
     queryKey: ["cameras"],
     queryFn: fetchCameras,
   });
@@ -108,7 +112,13 @@ const CameraTable: React.FC = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="text-center my-4">Loading...</div>;
+  }
+
+  if (isError) {
+    return (
+      <div className="text-center text-xl my-4">Error while fetching list</div>
+    );
   }
 
   return (
@@ -172,69 +182,77 @@ const CameraTable: React.FC = () => {
             <th className="px-4 py-2 font-normal">ACTIONS</th>
           </tr>
         </thead>
-        <tbody>
-          {paginatedCameras.map((camera) => (
-            <tr key={camera.id}>
-              <td className="px-4 py-2">
-                <input
-                  type="checkbox"
-                  checked={selectedCameras.includes(camera.id)}
-                  onChange={() => toggleSelection(camera.id)}
-                />
-              </td>
-              <td className="px-4 py-2">
-                <Name
-                  {...{
-                    name: camera.name,
-                    hasWarning: camera.hasWarning,
-                    createdBy: "sherwinwilliams@wobot.ai",
-                    isResponding: !!(
-                      camera.health &&
-                      (camera.health.cloud || camera.health.device)
-                    ),
-                  }}
-                />
-              </td>
-              <td className="px-4 py-2">
-                <Health {...{ ...camera.health }} />
-              </td>
-              <td className="px-4 py-2">{camera.location || "N/A"}</td>
-              <td className="px-4 py-2">{camera.recorder || "N/A"}</td>
-              <td className="px-4 py-2">{camera.tasks || "N/A"}</td>
-              <td className="px-4 py-2">
-                <span
-                  className={`p-2 ${
-                    camera.status === "Active"
-                      ? "bg-green-300/30 text-green-600"
-                      : "bg-gray-200/40 text-gray-600"
-                  } rounded text-sm`}
-                >
-                  {camera.status}
-                </span>
-              </td>
-              <td className="px-4 py-4 mt-2 flex h-full gap-4 items-center">
-                {camera.status !== "Active" ? (
-                  <CheckCircleIcon
-                    className="cursor-pointer"
-                    size={16}
-                    onClick={() => handleStatusToggle(camera.id, camera.status)}
+        {paginatedCameras.length > 0 ? (
+          <tbody>
+            {paginatedCameras.map((camera) => (
+              <tr key={camera.id}>
+                <td className="px-4 py-2">
+                  <input
+                    type="checkbox"
+                    checked={selectedCameras.includes(camera.id)}
+                    onChange={() => toggleSelection(camera.id)}
                   />
-                ) : (
-                  <BanIcon
-                    className="cursor-pointer"
-                    size={16}
-                    onClick={() => handleStatusToggle(camera.id, camera.status)}
+                </td>
+                <td className="px-4 py-2">
+                  <Name
+                    {...{
+                      name: camera.name,
+                      hasWarning: camera.hasWarning,
+                      createdBy: "sherwinwilliams@wobot.ai",
+                      isResponding: !!(
+                        camera.health &&
+                        (camera.health.cloud || camera.health.device)
+                      ),
+                    }}
                   />
-                )}
-                <TrashIcon
-                  size={16}
-                  className="text-red-600 cursor-pointer"
-                  onClick={() => handleDelete(camera.id)}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
+                </td>
+                <td className="px-4 py-2">
+                  <Health {...{ ...camera.health }} />
+                </td>
+                <td className="px-4 py-2">{camera.location || "N/A"}</td>
+                <td className="px-4 py-2">{camera.recorder || "N/A"}</td>
+                <td className="px-4 py-2">{camera.tasks || "N/A"}</td>
+                <td className="px-4 py-2">
+                  <span
+                    className={`p-2 ${
+                      camera.status === "Active"
+                        ? "bg-green-300/30 text-green-600"
+                        : "bg-gray-200/40 text-gray-600"
+                    } rounded text-sm`}
+                  >
+                    {camera.status}
+                  </span>
+                </td>
+                <td className="px-4 py-4 mt-2 flex h-full gap-4 items-center">
+                  {camera.status !== "Active" ? (
+                    <CheckCircleIcon
+                      className="cursor-pointer"
+                      size={16}
+                      onClick={() =>
+                        handleStatusToggle(camera.id, camera.status)
+                      }
+                    />
+                  ) : (
+                    <BanIcon
+                      className="cursor-pointer"
+                      size={16}
+                      onClick={() =>
+                        handleStatusToggle(camera.id, camera.status)
+                      }
+                    />
+                  )}
+                  <TrashIcon
+                    size={16}
+                    className="text-red-600 cursor-pointer"
+                    onClick={() => handleDelete(camera.id)}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        ) : (
+          <div>No cameras found</div>
+        )}
       </table>
       <Pagination
         totalItems={filteredCameras.length}
