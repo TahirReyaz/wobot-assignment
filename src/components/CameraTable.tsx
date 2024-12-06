@@ -12,7 +12,7 @@ import Health from "./Health";
 const CameraTable: React.FC = () => {
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [filters, setFilters] = useState({ location: "", status: "" });
   const [selectedCameras, setSelectedCameras] = useState<number[]>([]);
 
@@ -79,6 +79,11 @@ const CameraTable: React.FC = () => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  const handleItemsPerPageChange = (newItemsPerPage: number) => {
+    setItemsPerPage(newItemsPerPage);
+    setCurrentPage(1);
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -149,9 +154,9 @@ const CameraTable: React.FC = () => {
               <td className="px-4 py-2">
                 <Health {...{ ...camera.health }} />
               </td>
-              <td className="px-4 py-2">{camera.location}</td>
-              <td className="px-4 py-2">{camera.recorder}</td>
-              <td className="px-4 py-2">{camera.tasks}</td>
+              <td className="px-4 py-2">{camera.location || "N/A"}</td>
+              <td className="px-4 py-2">{camera.recorder || "N/A"}</td>
+              <td className="px-4 py-2">{camera.tasks || "N/A"}</td>
               <td className="px-4 py-2">
                 <span
                   className={`p-2 ${
@@ -185,6 +190,7 @@ const CameraTable: React.FC = () => {
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={setCurrentPage}
+        onItemsPerPageChange={handleItemsPerPageChange}
       />
     </div>
   );
