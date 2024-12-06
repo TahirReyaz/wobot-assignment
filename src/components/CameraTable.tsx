@@ -1,6 +1,11 @@
 import React, { useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { BanIcon, CheckCircle2Icon, CheckCircleIcon } from "lucide-react";
+import {
+  BanIcon,
+  CheckCircle2Icon,
+  CheckCircleIcon,
+  TrashIcon,
+} from "lucide-react";
 
 import { fetchCameras, updateCameraStatus } from "../api/camera";
 import { Camera } from "../types/Camera";
@@ -94,33 +99,38 @@ const CameraTable: React.FC = () => {
     <div className="p-4">
       <h1 className="text-2xl font-normal mb">Cameras</h1>
       <h3 className="text-gray-600 mb-4">Manage your cameras here</h3>
-      <Filter
-        {...{
-          type: "location",
-          handleFilterChange: (key, value) =>
-            setFilters((prev) => ({ ...prev, [key]: value })),
-          value: filters.location,
-          options: locationOptions,
-        }}
-      />
+      <div className="flex justify-between my-4">
+        <div className="flex">
+          <Filter
+            {...{
+              type: "location",
+              handleFilterChange: (key, value) =>
+                setFilters((prev) => ({ ...prev, [key]: value })),
+              value: filters.location,
+              options: locationOptions,
+            }}
+          />
 
-      <Filter
-        {...{
-          type: "status",
-          handleFilterChange: (key, value) =>
-            setFilters((prev) => ({ ...prev, [key]: value })),
-          value: filters.status,
-          options: statusOptions,
-        }}
-      />
-
-      <button
-        className="px-4 py-2 bg-red-500 text-white rounded mb-4"
-        onClick={handleDeleteSelected}
-        disabled={selectedCameras.length === 0}
-      >
-        Delete Selected
-      </button>
+          <Filter
+            {...{
+              type: "status",
+              handleFilterChange: (key, value) =>
+                setFilters((prev) => ({ ...prev, [key]: value })),
+              value: filters.status,
+              options: statusOptions,
+            }}
+          />
+        </div>
+        {selectedCameras.length > 0 && (
+          <button
+            className="flex gap-2 items-center px-3 py-1 me-8 text-white bg-red-500/80 hover:bg-red-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition-all duration-150 ease-in-out"
+            onClick={handleDeleteSelected}
+          >
+            <TrashIcon />
+            <span>Delete Selected</span>
+          </button>
+        )}
+      </div>
 
       <table className="table-auto w-full text-gray-600">
         <thead>
