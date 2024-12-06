@@ -57,14 +57,14 @@ const Health = ({ cloud, device }: HealthType) => {
       {/* Cloud Health */}
       {cloud && (
         <div className="flex items-center">
-          <CloudIcon className="w-5 me-1 text-gray-400" />
+          <CloudIcon className="me-1 text-gray-400" size={16} />
           {renderHealthRing(cloud)}
         </div>
       )}
       {/* Device Health */}
       {device && (
         <div className="flex items-center">
-          <ServerIcon className="w-5 me-1 text-gray-400" />
+          <ServerIcon className="me-1 text-gray-400" size={16} />
           {renderHealthRing(device)}
         </div>
       )}

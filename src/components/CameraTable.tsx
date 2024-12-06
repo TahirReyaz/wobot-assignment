@@ -53,6 +53,12 @@ const CameraTable: React.FC = () => {
     setSelectedCameras([]);
   };
 
+  const handleDelete = (id: number) => {
+    queryClient.setQueryData(["cameras"], (oldData: Camera[] | undefined) =>
+      oldData?.filter((camera) => camera.id !== id)
+    );
+  };
+
   const toggleSelectAll = () => {
     if (selectedCameras.length === paginatedCameras.length) {
       setSelectedCameras([]);
@@ -206,18 +212,25 @@ const CameraTable: React.FC = () => {
                   {camera.status}
                 </span>
               </td>
-              <td className="px-4 py-2">
+              <td className="px-4 py-4 mt-2 flex h-full gap-4 items-center">
                 {camera.status !== "Active" ? (
                   <CheckCircleIcon
-                    className="cursor-pointer w-4"
+                    className="cursor-pointer"
+                    size={16}
                     onClick={() => handleStatusToggle(camera.id, camera.status)}
                   />
                 ) : (
                   <BanIcon
-                    className="cursor-pointer w-4"
+                    className="cursor-pointer"
+                    size={16}
                     onClick={() => handleStatusToggle(camera.id, camera.status)}
                   />
                 )}
+                <TrashIcon
+                  size={16}
+                  className="text-red-600 cursor-pointer"
+                  onClick={() => handleDelete(camera.id)}
+                />
               </td>
             </tr>
           ))}
