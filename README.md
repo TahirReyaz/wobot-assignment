@@ -13,14 +13,17 @@ This project is a Camera Management System designed to manage and monitor camera
 
 ### 3. **Pagination**
    - The table displaying the camera data supports pagination with:
-     - A dropdown for selecting the number of items per page (`2`, `5`, `10`, `20`, `50`).
+     - A dropdown for selecting the number of items per page (`5`, `10`, `20`, `50`, `100`).
      - Page navigation buttons (`<<`, `<`, `>`, `>>`) to move between pages, allowing users to easily navigate through large datasets.
 
 ### 4. **Select and Delete Functionality**
    - **Checkbox Selection:** Each row in the camera table has a checkbox for selecting individual items. Additionally, there's a "Select All" checkbox in the header.
    - **Delete Button:** A delete button is provided to remove selected rows from the table. This button is designed with better UI/UX, featuring a red background and a trash icon to indicate the delete action.
 
-### 5. **Responsive and Accessible UI**
+### 5. **Delete Single Row Functionality**
+   - **Delete Button**: Each row has a delete button to delete the specific button from the table
+
+### 6. **Responsive and Accessible UI**
    - The UI is designed with responsive elements to ensure that it works well on various screen sizes.
    - The delete button is enhanced with hover and focus effects to ensure good user experience and accessibility.
 
