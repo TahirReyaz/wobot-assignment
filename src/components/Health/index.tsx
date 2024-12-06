@@ -10,7 +10,7 @@ const Health = ({ cloud, device }: HealthType) => {
     return { color, value };
   };
 
-  const renderHealthRing = (health: HealthValue, label: string) => {
+  const renderHealthRing = (health: HealthValue) => {
     const { color, value } = getHealthStyle(health);
     const radius = 18; // Radius of the circle
     const stroke = 3; // Stroke width
@@ -55,15 +55,19 @@ const Health = ({ cloud, device }: HealthType) => {
   return (
     <div className="flex items-center justify-around">
       {/* Cloud Health */}
-      <div className="flex items-center">
-        <CloudIcon className="text-md me-1 text-gray-400" />
-        {cloud && renderHealthRing(cloud, "Cloud")}
-      </div>
+      {cloud && (
+        <div className="flex items-center">
+          <CloudIcon className="w-5 me-1 text-gray-400" />
+          {renderHealthRing(cloud)}
+        </div>
+      )}
       {/* Device Health */}
-      <div className="flex items-center">
-        <ServerIcon className="text-md me-1 text-gray-400" />
-        {device && renderHealthRing(device, "Device")}
-      </div>
+      {device && (
+        <div className="flex items-center">
+          <ServerIcon className="w-5 me-1 text-gray-400" />
+          {renderHealthRing(device)}
+        </div>
+      )}
     </div>
   );
 };

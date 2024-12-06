@@ -8,6 +8,7 @@ import Pagination from "./Pagination";
 import Filter from "./Filter";
 import { statusOptions } from "../utils/constants";
 import Health from "./Health";
+import Name from "./Name";
 
 const CameraTable: React.FC = () => {
   const queryClient = useQueryClient();
@@ -30,7 +31,7 @@ const CameraTable: React.FC = () => {
     mutationFn: ({ id, status }: { id: number; status: string }) =>
       updateCameraStatus(id, status),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cameras"] }); // Refresh data after updating status
+      queryClient.invalidateQueries({ queryKey: ["cameras"] });
     },
   });
 
@@ -150,7 +151,19 @@ const CameraTable: React.FC = () => {
                   onChange={() => toggleSelection(camera.id)}
                 />
               </td>
-              <td className="px-4 py-2">{camera.name}</td>
+              <td className="px-4 py-2">
+                <Name
+                  {...{
+                    name: camera.name,
+                    hasWarning: camera.hasWarning,
+                    createdBy: "sherwinwilliams@wobot.ai",
+                    isResponding: !!(
+                      camera.health &&
+                      (camera.health.cloud || camera.health.device)
+                    ),
+                  }}
+                />
+              </td>
               <td className="px-4 py-2">
                 <Health {...{ ...camera.health }} />
               </td>
@@ -171,12 +184,12 @@ const CameraTable: React.FC = () => {
               <td className="px-4 py-2">
                 {camera.status !== "Active" ? (
                   <CheckCircleIcon
-                    className="cursor-pointer"
+                    className="cursor-pointer w-4"
                     onClick={() => handleStatusToggle(camera.id, camera.status)}
                   />
                 ) : (
                   <BanIcon
-                    className="cursor-pointer"
+                    className="cursor-pointer w-4"
                     onClick={() => handleStatusToggle(camera.id, camera.status)}
                   />
                 )}
